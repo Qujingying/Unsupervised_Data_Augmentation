@@ -11,11 +11,11 @@ import pickle
 from googletrans import Translator
 import torch
 import torch.nn.functional as F
-from uda-bert import BertTokenizer, BertModel, BertForMaskedLM, BertForPreTraining, BertConfig
+from uda_bert import BertTokenizer, BertModel, BertForMaskedLM, BertForPreTraining, BertConfig
 from pathlib import Path
 import spacy
-from uda-bert.optimization import BertAdam, warmup_linear
-from uda-bert import BertForSequenceClassification,BertForPreTraining
+from uda_bert.optimization import BertAdam, warmup_linear
+from uda_bert import BertForSequenceClassification,BertForPreTraining
 from tqdm import tqdm
 
 
