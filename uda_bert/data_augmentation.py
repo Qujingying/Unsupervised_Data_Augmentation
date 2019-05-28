@@ -141,13 +141,14 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
 
     with DocumentDatabase() as docs:
-        
+
         with open(text.name, 'r') as f:
             print('1',f)
             print('2',f.readlines())
             doc = []
             doc_translated = []
             for line in tqdm(f.readlines(), desc="Loading Dataset", unit=" lines"):
+                print(line)
                 line = line.strip()
                 if line == "":
                     docs.add_document((doc, doc_translated))
