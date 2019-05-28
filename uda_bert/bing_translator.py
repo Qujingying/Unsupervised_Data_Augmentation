@@ -8,6 +8,22 @@ headers = {
 }
 
 
+
+
+
+class BingTranslator:
+    def __init__(self,url = "https://www.bing.com/ttranslate", headers = {'cache-control': "no-cache"}):
+        self.url = url
+        self.headers = headers
+
+    def translate(selfself, text, selected_lang, target_lang):
+        params = {'text': text,
+                  'from': selected_lang,
+                    'to': target_lang}
+        response = requests.request("POST", url, headers=headers, params=params)
+        return response.json()["translationResponse"]
+
+
 def bing_translator(text, selected_lang, target_lang):
     params = {'text': text,
               'from': selected_lang,
@@ -30,3 +46,7 @@ if __name__ == "__main__":
 
     translation = bing_translator(text, selected_lang, target_lang)
     print(translation)
+
+
+
+
