@@ -321,7 +321,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('--no_preprocessing', '-n', action='store_true')
     parser.add_argument('--input_folder',type=Path,default='processed_texts')
-    parser.add_argument('--ouput_file_pretranslation',type=FileType(mode='w', encoding='utf-8'),default='all_texts.txt')
+    parser.add_argument('--ouput_file_pretranslation',type=FileType(mode='rw', encoding='utf-8'),default='all_texts.txt')
     parser.add_argument('--trim',action='store_true')
     parser.add_argument("--epochs", type=int, default=3, help="Number of epochs to train for")
     parser.add_argument("--train_batch_size", type=int, default=2, help="Size of batch")
@@ -382,7 +382,7 @@ def main():
 
     loss_function = nn.KLDivLoss(size_average=None, reduce=None, reduction='batchmean')
     global_step = 0
-    
+
     for epoch in tqdm(range(args.epochs)):
 
         model.train()
