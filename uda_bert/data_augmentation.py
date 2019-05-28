@@ -143,11 +143,10 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
     with DocumentDatabase() as docs:
 
         with open(text.name, 'r') as f:
-            print('1',f)
-            print('2',f.readlines())
+            liste = f.readlines()
             doc = []
             doc_translated = []
-            for line in tqdm(f.readlines(), desc="Loading Dataset", unit=" lines"):
+            for line in tqdm(liste, desc="Loading Dataset", unit=" lines"):
                 print(line)
                 line = line.strip()
                 if line == "":
