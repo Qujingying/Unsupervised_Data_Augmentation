@@ -129,7 +129,7 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
             sentences = [sent.string.strip() for sent in doc.sents]
         text_to_write.append('\n'.join(sentences))
     output_file.write('\n\n'.join(text_to_write))
-
+    output_file.close()
 
 
 
@@ -139,12 +139,13 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
 ### Translate each sentence
 
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
-
+    f1 = open('/content/all_texts.txt', 'r')
+    print(f1.readlines())
     with DocumentDatabase() as docs:
         print(text.name)
-        f1 = open('/content/all_texts.txt', 'r')
 
-        print(f1.readlines())
+
+
         with text as f:
             print('1',f)
             print('2',f.readlines())
