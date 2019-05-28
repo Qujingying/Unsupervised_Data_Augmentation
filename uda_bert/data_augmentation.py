@@ -142,7 +142,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
 
     with DocumentDatabase() as docs:
         print(text.name)
-        f1 = open('all_texts.txt', 'r')
+        f1 = open('/content/all_texts.txt', 'r')
 
         print(f1.readlines())
         with text as f:
