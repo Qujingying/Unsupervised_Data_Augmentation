@@ -31,8 +31,8 @@ import pandas as pd
 import torch
 from torch import nn
 from torch.nn import CrossEntropyLoss, NLLLoss, BCEWithLogitsLoss
-from pytorch_pretrained_bert.file_utils import cached_path
-from pytorch_pretrained_bert.tokenization import BertTokenizer
+from uda_bert.file_utils import cached_path
+from uda_bert.tokenization import BertTokenizer
 ## DEBUG VERSION
 import os
 # os.environ["CUDA_VISIBLE_DEVICES"]='0'
