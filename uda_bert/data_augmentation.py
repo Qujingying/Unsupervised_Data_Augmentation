@@ -118,7 +118,9 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
         with open(file, 'r') as f:
             raw_text = f.read()
         text = raw_text.replace('\n\n', ' ')
+        print(text)
         doc = nlp(text)
+
         if trim:
             sentences = [sent.string.strip() for sent in doc.sents if len(sent.string.strip())>15]
         else:
@@ -140,7 +142,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
         with text as f:
             doc = []
             doc_translated = []
-            for line in tqdm(f, desc="Loading Dataset", unit=" lines"):
+            for line in tqdm(f.readlines(), desc="Loading Dataset", unit=" lines"):
                 line = line.strip()
                 if line == "":
                     docs.add_document((doc, doc_translated))
