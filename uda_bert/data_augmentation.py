@@ -6,7 +6,7 @@ Author : Bastien van Delft
 
 # Import
 from argparse import ArgumentParser, FileType
-from tqdm import tqdm
+from tqdm import tqdm, trange
 import pickle
 from googletrans import Translator
 import torch
@@ -16,7 +16,7 @@ from pathlib import Path
 import spacy
 from uda_bert.optimization import BertAdam
 from uda_bert import BertForSequenceClassification,BertForPreTraining
-from tqdm import tqdm
+
 
 
 class InputFeatures(object):
