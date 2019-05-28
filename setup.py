@@ -3,7 +3,7 @@ from io import open
 from setuptools import find_packages, setup
 
 setup(
-    name="uda-bert",
+    name="uda_bert",
     version="0.0.1",
     author="Bastien van Delft",
     author_email="bastien.van-delft@unchartech.com",
