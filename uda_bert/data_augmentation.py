@@ -14,7 +14,7 @@ import torch.nn.functional as F
 from uda_bert import BertTokenizer, BertModel, BertForMaskedLM, BertForPreTraining, BertConfig
 from pathlib import Path
 import spacy
-from uda_bert.optimization import BertAdam, warmup_linear
+from uda_bert.optimization import BertAdam
 from uda_bert import BertForSequenceClassification,BertForPreTraining
 from tqdm import tqdm
 
