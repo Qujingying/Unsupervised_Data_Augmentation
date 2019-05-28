@@ -328,7 +328,7 @@ def main():
     parser.add_argument("--selected_lang", "-s", type=str, default='en', help="Source language")
     parser.add_argument("--target_lang", "-t", type=str, default='fr', help="Target language")
     # parser.add_argument('--ouput_dir',type=FileType(mode='w', encoding='utf-8'),default='all_texts.txt')
-    parser.add_argument("--output_dir_Uns", type=Path, default='training/')
+    parser.add_argument("--output_dir", type=Path, default='training/')
     parser.add_argument('--translator', default = 'google', help = 'Choose which translator to use : bing, google or deepl')
     parser.add_argument('--num_labels', type = int, default=2)
     args = parser.parse_args()
