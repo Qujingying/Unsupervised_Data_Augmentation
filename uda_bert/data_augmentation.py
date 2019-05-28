@@ -264,11 +264,12 @@ def main():
     # parser.add_argument('--ouput_dir',type=FileType(mode='w', encoding='utf-8'),default='all_texts.txt')
     parser.add_argument("--output_dir_Uns", type=Path, default='training/')
     parser.add_argument('--translator', default = 'google', help = 'Choose which translator to use : bing, google or deepl')
+    parser.add_argument('--num_labels', type = int, default=2)
     args = parser.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=num_labels).to(device)
+    model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=args.num_labels).to(device)
 
 
     if args.translator == 'deepl':
