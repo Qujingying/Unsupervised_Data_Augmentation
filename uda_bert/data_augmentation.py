@@ -118,7 +118,7 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
             sentences = [sent.string.strip() for sent in doc.sents]
         text_to_write.append('\n'.join(sentences))
     output_file.write('\n\n'.join(text_to_write))
-    output_file.close()
+
 
 
 
@@ -130,7 +130,7 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
 
     with DocumentDatabase() as docs:
-        with open(str(text),'r+') as f:
+        with text as f:
             doc = []
             doc_translated = []
             for line in tqdm(f, desc="Loading Dataset", unit=" lines"):
