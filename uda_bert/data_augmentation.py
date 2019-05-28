@@ -141,8 +141,10 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
 
     with DocumentDatabase() as docs:
-        f = open('all_texts.txt','r')
-        print(f.readlines())
+        print(text.name)
+        f1 = open('all_texts.txt', 'r')
+
+        print(f1.readlines())
         with text as f:
             print('1',f)
             print('2',f.readlines())
