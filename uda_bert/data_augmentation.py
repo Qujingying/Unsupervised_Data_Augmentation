@@ -321,7 +321,7 @@ def main():
             optimizer.zero_grad()
             batch = tuple(t.to(device) for t in batch)
             original_input_ids, original_input_mask, original_segment_ids, augmented_input_ids,augmented_input_mask,augmented_segment_ids = batch
-            with torch.no_grad();
+            with torch.no_grad():
                 logits_original = model(original_input_ids)  # , segment_ids, input_mask, labels=None)
             logits_augmented = model(augmented_input_ids)
             print(logits)
