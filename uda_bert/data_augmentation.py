@@ -103,7 +103,7 @@ class DocumentDatabase:
 
 #Use spacy and prepare all text for bert that produce document separated by \n\n where one line is one sentence
 
-def split_into_sentences(input_folder: str, ouput_file: FileType, trim: bool):
+def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
     nlp = spacy.load('en_core_web_lg', disable=['tokenizer', 'tagger', 'ner', 'textcat'])
     nlp.max_length = 2000000
     text_to_write = []
@@ -117,7 +117,7 @@ def split_into_sentences(input_folder: str, ouput_file: FileType, trim: bool):
         else:
             sentences = [sent.string.strip() for sent in doc.sents]
         text_to_write.append('\n'.join(sentences))
-    ouput_file.write('\n\n'.join(text_to_write))
+    output_file.write('\n\n'.join(text_to_write))
     output_file.close()
 
 
@@ -322,7 +322,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('--no_preprocessing', '-n', action='store_true')
     parser.add_argument('--input_folder',type=Path,default='processed_texts')
-    parser.add_argument('--ouput_file_pretranslation',type=FileType(mode='w+', encoding='utf-8'),default='all_texts.txt')
+    parser.add_argument('--output_file_pretranslation',type=FileType(mode='w+', encoding='utf-8'),default='all_texts.txt')
     parser.add_argument('--trim',action='store_true')
     parser.add_argument("--epochs", type=int, default=3, help="Number of epochs to train for")
     parser.add_argument("--train_batch_size", type=int, default=2, help="Size of batch")
@@ -348,9 +348,9 @@ def main():
 
     if args.no_preprocessing != True:
         print('split into sentences')
-        split_into_sentences(input_folder= args.input_folder, ouput_file = args.ouput_file_pretranslation, trim= args.trim)
+        split_into_sentences(input_folder= args.input_folder, ouput_file = args.output_file_pretranslation, trim= args.trim)
         print('back_translation')
-        train_features = prepare_with_back_translate(args.ouput_file_pretranslation, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.output_dir)
+        train_features = prepare_with_back_translate(args.output_file_pretranslation, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.output_dir)
     else:
         train_features = pickle.load(open('data_unsup.p','rb'))
     original_input_ids = torch.tensor([f.input_ids[0] for f in train_features], dtype=torch.long)
