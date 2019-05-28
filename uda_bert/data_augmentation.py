@@ -28,7 +28,73 @@ class InputFeatures(object):
         self.segment_ids = segment_ids
         self.label_id = label_id
 
+class DocumentDatabase:
+    def __init__(self, reduce_memory=False):
+        if reduce_memory:
+            self.temp_dir = TemporaryDirectory()
+            self.working_dir = Path(self.temp_dir.name)
+            self.document_shelf_filepath = self.working_dir / 'shelf.db'
+            self.document_shelf = shelve.open(str(self.document_shelf_filepath),
+                                              flag='n', protocol=-1)
+            self.documents = None
+        else:
+            self.documents = []
+            self.document_shelf = None
+            self.document_shelf_filepath = None
+            self.temp_dir = None
+        self.doc_lengths = []
+        self.doc_cumsum = None
+        self.cumsum_max = None
+        self.reduce_memory = reduce_memory
 
+    def add_document(self, document):
+        if self.reduce_memory:
+            current_idx = len(self.doc_lengths)
+            self.document_shelf[str(current_idx)] = document
+        else:
+            self.documents.append(document)
+        self.doc_lengths.append(len(document))
+
+    def _precalculate_doc_weights(self):
+        self.doc_cumsum = np.cumsum(self.doc_lengths)
+        self.cumsum_max = self.doc_cumsum[-1]
+
+    def sample_doc(self, current_idx, sentence_weighted=True):
+        # Uses the current iteration counter to ensure we don't sample the same doc twice
+        if sentence_weighted:
+            # With sentence weighting, we sample docs proportionally to their sentence length
+            if self.doc_cumsum is None or len(self.doc_cumsum) != len(self.doc_lengths):
+                self._precalculate_doc_weights()
+            rand_start = self.doc_cumsum[current_idx]
+            rand_end = rand_start + self.cumsum_max - self.doc_lengths[current_idx]
+            sentence_index = randint(rand_start, rand_end-1) % self.cumsum_max
+            sampled_doc_index = np.searchsorted(self.doc_cumsum, sentence_index, side='right')
+        else:
+            # If we don't use sentence weighting, then every doc has an equal chance to be chosen
+            sampled_doc_index = current_idx + randint(1, len(self.doc_lengths)-1)
+        assert sampled_doc_index != current_idx
+        if self.reduce_memory:
+            return self.document_shelf[str(sampled_doc_index)]
+        else:
+            return self.documents[sampled_doc_index]
+
+    def __len__(self):
+        return len(self.doc_lengths)
+
+    def __getitem__(self, item):
+        if self.reduce_memory:
+            return self.document_shelf[str(item)]
+        else:
+            return self.documents[item]
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, traceback):
+        if self.document_shelf is not None:
+            self.document_shelf.close()
+        if self.temp_dir is not None:
+            self.temp_dir.cleanup()
 ### Take as input a text
 
 
