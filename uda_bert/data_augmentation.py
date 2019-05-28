@@ -23,6 +23,7 @@ from tensorboardX import SummaryWriter
 from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
 from torch.utils.data.distributed import DistributedSampler
+from pathlib import Path
 
 
 
@@ -114,7 +115,7 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
     nlp = spacy.load('en_core_web_lg', disable=['tokenizer', 'tagger', 'ner', 'textcat'])
     nlp.max_length = 2000000
     text_to_write = []
-    for file in tqdm(input_folder.glob("*.txt")):
+    for file in tqdm(Path(input_folder).glob("*.txt")):
         with open(file, 'r') as f:
             raw_text = f.read()
         text = raw_text.replace('\n\n', ' ')
