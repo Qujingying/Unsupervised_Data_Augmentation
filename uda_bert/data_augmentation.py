@@ -278,7 +278,7 @@ def main():
     else:
         translator = Translator()
 
-    if !args.no_preprocessing:
+    if args.no_preprocessing != True:
         split_into_sentences(input_folder= args.input_folder, ouput_file = args.ouput_file_pretranslation, trim= args.trim)
         train_features = prepare_with_back_translate(args.ouput_file, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.ouput_dir)
     else:
