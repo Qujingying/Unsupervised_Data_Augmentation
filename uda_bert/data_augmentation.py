@@ -347,7 +347,7 @@ def main():
 
     if args.no_preprocessing != True:
         split_into_sentences(input_folder= args.input_folder, ouput_file = args.ouput_file_pretranslation, trim= args.trim)
-        train_features = prepare_with_back_translate(args.ouput_file_pretranslation, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.ouput_dir)
+        train_features = prepare_with_back_translate(args.ouput_file_pretranslation, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.output_dir)
     else:
         train_features = pickle.load(open('data_unsup.p','rb'))
     original_input_ids = torch.tensor([f.input_ids[0] for f in train_features], dtype=torch.long)
