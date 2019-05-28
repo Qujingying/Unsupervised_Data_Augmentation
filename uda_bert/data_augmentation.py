@@ -126,7 +126,7 @@ def split_into_sentences(input_folder: str, ouput_file: FileType, trim: bool):
 ### Translate each sentence
 
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
-    translator = translator()
+    
     with DocumentDatabase(reduce_memory=args.reduce_memory) as docs:
         with text.open() as f:
             doc = []
