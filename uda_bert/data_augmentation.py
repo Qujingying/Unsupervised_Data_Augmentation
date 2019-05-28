@@ -348,7 +348,7 @@ def main():
 
     if args.no_preprocessing != True:
         print('split into sentences')
-        split_into_sentences(input_folder= args.input_folder, ouput_file = args.output_file_pretranslation, trim= args.trim)
+        split_into_sentences(input_folder= args.input_folder, output_file = args.output_file_pretranslation, trim= args.trim)
         print('back_translation')
         train_features = prepare_with_back_translate(args.output_file_pretranslation, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.output_dir)
     else:
