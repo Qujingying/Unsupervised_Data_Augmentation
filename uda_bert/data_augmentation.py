@@ -118,6 +118,7 @@ def split_into_sentences(input_folder: str, ouput_file: FileType, trim: bool):
             sentences = [sent.string.strip() for sent in doc.sents]
         text_to_write.append('\n'.join(sentences))
     ouput_file.write('\n\n'.join(text_to_write))
+    output_file.close()
 
 
 
