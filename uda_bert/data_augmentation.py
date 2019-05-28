@@ -16,6 +16,13 @@ from pathlib import Path
 import spacy
 from uda_bert.optimization import BertAdam
 from uda_bert import BertForSequenceClassification,BertForPreTraining
+from torch.nn import CrossEntropyLoss, NLLLoss, BCEWithLogitsLoss
+import torch.nn.functional as F
+from tqdm import tqdm
+from tensorboardX import SummaryWriter
+from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
+                              TensorDataset)
+from torch.utils.data.distributed import DistributedSampler
 
 
 
@@ -140,11 +147,13 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
                     doc = []
                     doc_translated = []
                 else:
+                    print('original: ', line)
                     translation = translator.translate(line, src=selected_lang, dest=target_lang)
                     back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
                     # tokens = tokenizer.tokenize(line)
                     doc.append(line)
                     # tokens_bis = tokenizer.tokenize(back_translation.text)
+                    print('new: ', back_translation.text)
                     doc_translated.append(back_translation.text)
 
     output_dir.mkdir(exist_ok=True)
