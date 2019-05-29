@@ -215,7 +215,7 @@ def convert_examplesUDA_to_features(examples, max_seq_length,
   features = []
   for ex_index, example_ in enumerate(examples):
       if ex_index % 10000 == 0:
-          logger.info("Writing example %d of %d" % (ex_index, len(examples)))
+          print('1000')
       example = example_
       example2 = example_
       print(example_, len(example_))
@@ -295,7 +295,7 @@ def convertLABEL_examples_to_features(examples, label_list, max_seq_length,
   features = []
   for (ex_index, example) in enumerate(examples):
       if ex_index % 10000 == 0:
-          logger.info("Writing example %d of %d" % (ex_index, len(examples)))
+
 
       tokens_a = tokenizer.tokenize(example)
 
