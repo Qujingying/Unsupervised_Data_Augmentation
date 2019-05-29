@@ -130,9 +130,13 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
         else:
             sentences = [sent.string.strip() for sent in doc.sents]
             all_sentences.append(sentences)
-        # text_to_write.append('\n'.join(sentences))
-    # output_file.write('\n\n'.join(text_to_write))
-    # output_file.close()
+        text_to_write.append('\n'.join(sentences))
+    try:
+        output_file.write('\n\n'.join(text_to_write))
+        output_file.close()
+    except:
+        pass
+
     return all_sentences
 
 
@@ -151,10 +155,14 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
             doc_translated = []
             for line in tqdm(liste, desc="Loading Dataset", unit=" lines"):
                 line = line.strip()
-                translation = translator.translate(line, src=selected_lang, dest=target_lang)
-                back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
-                doc.append(line)
-                doc_translated.append(back_translation.text)
+                try:
+                    translation = translator.translate(line, src=selected_lang, dest=target_lang)
+                    back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
+                    doc.append(line)
+                    doc_translated.append(back_translation.text)
+                except:
+                    print('error in line :', line)
+                    continue
             text_original = ''.join(doc)
             text_translated = ''.join(doc_translated)
             print('original: ',text_original)
