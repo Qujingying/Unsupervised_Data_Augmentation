@@ -155,7 +155,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
                 back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
                 doc.append(line)
                 doc_translated.append(back_translation.text)
-            docs.add_document(np.array([doc, doc_translated]).T)
+            docs.add_document(np.array('.'.join(doc), '.'.join(doc_translated])))
                 # if line == "":
                 #     docs.add_document(np.array([doc, doc_translated]).T)
                 #     doc = []
@@ -178,10 +178,10 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
     # with epoch_filename.open('w') as epoch_file:
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     for doc_idx in trange(len(docs), desc="Document"):
-        # print(docs[doc_idx])
+        print(docs[doc_idx])
         instance = convert_examplesUDA_to_features(docs[doc_idx],max_seq_length = 512, tokenizer = tokenizer,output_mode = "UDA")
         docs_instances_unsup.append(instance)
-    # docs_instances_unsup = np.array(docs_instances_unsup).reshape(-1)
+    docs_instances_unsup = np.array(docs_instances_unsup).reshape(-1)
     pickle.dump(docs_instances_unsup,open('data_unsup.p','wb'))
     return docs_instances_unsup
                 # instance = {
@@ -222,12 +222,14 @@ def convert_examplesUDA_to_features(examples, max_seq_length,
   for ex_index, example_ in enumerate(examples):
       # if ex_index % 10000 == 0:
       #     print('1000')
+
       example = example_[0]
       example_2 = example_[1]
       # print(example_, len(example_))
       tokens_a = tokenizer.tokenize(example)
-
+      print(tokens_a)
       tokens_b = tokenizer.tokenize(example_2)
+      print(tokens_b)
 #       if example.text_b:
 #           tokens_b = tokenizer.tokenize(example.text_b)
 #           # Modifies `tokens_a` and `tokens_b` in place so that the total
