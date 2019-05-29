@@ -153,7 +153,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
             doc_translated = []
             for line in tqdm(liste, desc="Loading Dataset", unit=" lines"):
                 line = line.strip()
-                translation = translator.translate(line, src=selected_lang, dest=target_lang)
+                translation = translator.translate('fudge', src=selected_lang, dest=target_lang)
                 back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
                 doc.append(line)
                 doc_translated.append(back_translation.text)
