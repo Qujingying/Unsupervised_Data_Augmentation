@@ -157,7 +157,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
                 doc_translated.append(back_translation.text)
             text_original = ''.join(doc)
             text_translated = '.'.join(doc_translated)
-            print('original: ,'text_original)
+            print('original: ',text_original)
             print('translated: ', text_translated)
             docs.add_document([text_original,text_translated])
                 # if line == "":
