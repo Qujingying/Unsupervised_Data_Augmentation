@@ -116,6 +116,7 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
     nlp = spacy.load('en_core_web_lg', disable=['tokenizer', 'tagger', 'ner', 'textcat'])
     nlp.max_length = 2000000
     text_to_write = []
+    all_sentences = []
     for file in tqdm(Path(input_folder).glob("*.txt")):
         # print(file)
         with open(file, 'r') as f:
@@ -128,10 +129,11 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
             sentences = [sent.string.strip() for sent in doc.sents if len(sent.string.strip())>15]
         else:
             sentences = [sent.string.strip() for sent in doc.sents]
-        text_to_write.append('\n'.join(sentences))
-    output_file.write('\n\n'.join(text_to_write))
-    output_file.close()
-
+            all_sentences.append(sentences)
+        # text_to_write.append('\n'.join(sentences))
+    # output_file.write('\n\n'.join(text_to_write))
+    # output_file.close()
+    return all_sentences
 
 
 
@@ -142,27 +144,31 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
 
     with DocumentDatabase() as docs:
-
-        with open(text.name, 'r') as f:
-            liste = f.readlines()
+        for liste in text:
+        # with open(text.name, 'r') as f:
+        #     liste = f.readlines()
             doc = []
             doc_translated = []
             for line in tqdm(liste, desc="Loading Dataset", unit=" lines"):
-
                 line = line.strip()
-                if line == "":
-                    docs.add_document(np.array([doc, doc_translated]).T)
-                    doc = []
-                    doc_translated = []
-                else:
-                    # print('original: ', line)
-                    translation = translator.translate(line, src=selected_lang, dest=target_lang)
-                    back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
-                    # tokens = tokenizer.tokenize(line)
-                    doc.append(line)
-                    # tokens_bis = tokenizer.tokenize(back_translation.text)
-                    # print('new: ', back_translation.text)
-                    doc_translated.append(back_translation.text)
+                translation = translator.translate(line, src=selected_lang, dest=target_lang)
+                back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
+                doc.append(line)
+                doc_translated.append(back_translation.text)
+            docs.add_document(np.array([doc, doc_translated]).T)
+                # if line == "":
+                #     docs.add_document(np.array([doc, doc_translated]).T)
+                #     doc = []
+                #     doc_translated = []
+                # else:
+                #     # print('original: ', line)
+                #     translation = translator.translate(line, src=selected_lang, dest=target_lang)
+                #     back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
+                #     # tokens = tokenizer.tokenize(line)
+                #     doc.append(line)
+                #     # tokens_bis = tokenizer.tokenize(back_translation.text)
+                #     # print('new: ', back_translation.text)
+                #     doc_translated.append(back_translation.text)
 
     output_dir.mkdir(exist_ok=True)
     # for epoch in trange(epochs_to_generate, desc="Epoch"):
@@ -368,9 +374,9 @@ def main():
 
     if args.no_preprocessing != True:
         print('split into sentences')
-        split_into_sentences(input_folder= args.input_folder, output_file = args.output_file_pretranslation, trim= args.trim)
+        texts = split_into_sentences(input_folder= args.input_folder, output_file = args.output_file_pretranslation, trim= args.trim)
         print('back_translation')
-        train_features = prepare_with_back_translate(args.output_file_pretranslation, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.output_dir)
+        train_features = prepare_with_back_translate(texts, translator = translator, selected_lang = args.selected_lang, target_lang = args.target_lang, epochs_to_generate = args.epochs, output_dir = args.output_dir)
     else:
         train_features = pickle.load(open('data_unsup.p','rb'))
     original_input_ids = torch.tensor([f.input_ids[0] for f in train_features], dtype=torch.long)
