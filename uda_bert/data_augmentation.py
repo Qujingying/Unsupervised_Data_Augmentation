@@ -154,6 +154,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
             doc = []
             doc_translated = []
             for line in tqdm(liste, desc="Loading Dataset", unit=" lines"):
+                print(type(line))
                 line = str(line).strip()
                 print('line ', line)
                 # try:
