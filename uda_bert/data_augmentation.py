@@ -401,7 +401,7 @@ def main():
 
     optimizer = BertAdam(optimizer_grouped_parameters,lr=3 * 10e-5,warmup=-1,t_total=12000)
 
-    loss_function = torch.nn.KLDivLoss(size_average=None, reduce=None, reduction='batchmean')
+    loss_function = torch.nn.KLDivLoss(size_average=None, reduce=None, reduction='mean')
     global_step = 0
 
     for epoch in tqdm(range(args.epochs)):
@@ -419,7 +419,7 @@ def main():
             print(logits_augmented)
             loss = loss_function(logits_augmented, logits_original)
             loss.backward()
-            print(loss)
+            print('loss ', loss)
             optimizer.step()
             global_step += 1
 
