@@ -217,7 +217,7 @@ def convert_examplesUDA_to_features(examples, max_seq_length,
       if ex_index % 10000 == 0:
           print('1000')
       example = example_[0]
-      example2 = example_[1]
+      example_2 = example_[1]
       print(example_, len(example_))
       tokens_a = tokenizer.tokenize(example)
 
