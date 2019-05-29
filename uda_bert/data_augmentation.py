@@ -151,7 +151,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
 
                 line = line.strip()
                 if line == "":
-                    docs.add_document(np.array(doc, doc_translated))
+                    docs.add_document(np.array([doc, doc_translated]))
                     doc = []
                     doc_translated = []
                 else:
