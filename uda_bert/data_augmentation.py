@@ -155,13 +155,13 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
                     doc = []
                     doc_translated = []
                 else:
-                    print('original: ', line)
+                    # print('original: ', line)
                     translation = translator.translate(line, src=selected_lang, dest=target_lang)
                     back_translation = translator.translate(translation.text, src=target_lang, dest=selected_lang)
                     # tokens = tokenizer.tokenize(line)
                     doc.append(line)
                     # tokens_bis = tokenizer.tokenize(back_translation.text)
-                    print('new: ', back_translation.text)
+                    # print('new: ', back_translation.text)
                     doc_translated.append(back_translation.text)
 
     output_dir.mkdir(exist_ok=True)
@@ -172,7 +172,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
     # with epoch_filename.open('w') as epoch_file:
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     for doc_idx in trange(len(docs), desc="Document"):
-        print(docs[doc_idx])
+        # print(docs[doc_idx])
         instance = convert_examplesUDA_to_features(docs[doc_idx],max_seq_length = 512, tokenizer = tokenizer,output_mode = "UDA")
         docs_instances_unsup.append(instance)
     docs_instances_unsup = np.array(docs_instances_unsup).reshape(-1)
@@ -406,7 +406,7 @@ def main():
     import os
     print('cwd', os.getcwd())
     for epoch in tqdm(range(args.epochs)):
-
+        writer.add_scalar('lol', epoch)
         model.train()
         print('train')
         for step, batch in enumerate(train_dataloader):
