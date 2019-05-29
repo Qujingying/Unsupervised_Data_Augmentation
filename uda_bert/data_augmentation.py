@@ -25,7 +25,7 @@ from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
 from torch.utils.data.distributed import DistributedSampler
 from pathlib import Path
-writer = SummaryWriter('./log')
+
 
 
 class InputFeatures(object):
@@ -357,7 +357,7 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=args.num_labels).to(device)
-
+    writer = SummaryWriter('./log')
 
     if args.translator == 'deepl':
         translator = DeeplTranslator()
