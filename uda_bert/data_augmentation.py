@@ -142,7 +142,7 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
 ### Translate each sentence
 
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
-
+    print(text)
     with DocumentDatabase() as docs:
         for liste in text:
         # with open(text.name, 'r') as f:
