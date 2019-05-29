@@ -403,7 +403,8 @@ def main():
 
     loss_function = torch.nn.KLDivLoss(size_average=None, reduce=None, reduction='mean')
     global_step = 0
-
+    import os
+    print('cwd', os.getcwd())
     for epoch in tqdm(range(args.epochs)):
 
         model.train()
@@ -418,6 +419,7 @@ def main():
             # print(logits_original)
             # print(logits_augmented)
             loss = loss_function(logits_augmented, logits_original)
+
             writer.add_scalar('KL_loss', loss.item(), global_step)
             loss.backward()
             # print('loss ', loss)
