@@ -294,7 +294,7 @@ def convertLABEL_examples_to_features(examples, label_list, max_seq_length,
 
   features = []
   for (ex_index, example) in enumerate(examples):
-      if ex_index % 10000 == 0:
+
 
 
       tokens_a = tokenizer.tokenize(example)
