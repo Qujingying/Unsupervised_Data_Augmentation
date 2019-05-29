@@ -25,7 +25,7 @@ from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
 from torch.utils.data.distributed import DistributedSampler
 from pathlib import Path
-
+writer = SummaryWriter('./log')
 
 
 class InputFeatures(object):
@@ -415,11 +415,12 @@ def main():
             with torch.no_grad():
                 logits_original = model(original_input_ids)  # , segment_ids, input_mask, labels=None)
             logits_augmented = model(augmented_input_ids)
-            print(logits_original)
-            print(logits_augmented)
+            # print(logits_original)
+            # print(logits_augmented)
             loss = loss_function(logits_augmented, logits_original)
+            writer.add_scalar('KL_loss', loss.item(), global_step)
             loss.backward()
-            print('loss ', loss)
+            # print('loss ', loss)
             optimizer.step()
             global_step += 1
 
