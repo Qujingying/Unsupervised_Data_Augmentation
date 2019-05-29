@@ -178,7 +178,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
     # with epoch_filename.open('w') as epoch_file:
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     for doc_idx in trange(len(docs), desc="Document"):
-        print(docs[doc_idx])
+        print('doc', docs[doc_idx])
         instance = convert_examplesUDA_to_features(docs[doc_idx],max_seq_length = 512, tokenizer = tokenizer,output_mode = "UDA")
         docs_instances_unsup.append(instance)
     docs_instances_unsup = np.array(docs_instances_unsup).reshape(-1)
