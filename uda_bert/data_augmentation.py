@@ -425,6 +425,7 @@ def main():
             # print('loss ', loss)
             optimizer.step()
             global_step += 1
+    torch.save(model.state_dict(), 'model.bin')
 
 
 
