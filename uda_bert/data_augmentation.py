@@ -415,7 +415,7 @@ def main():
             with torch.no_grad():
                 logits_original = model(original_input_ids)  # , segment_ids, input_mask, labels=None)
             logits_augmented = model(augmented_input_ids)
-            print(logits)
+            print(logits_original)
             print(logits_augmented)
             loss = loss_function(logits_augmented, logits_original)
             loss.backward()
