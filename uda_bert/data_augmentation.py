@@ -6,6 +6,7 @@ Author : Bastien van Delft
 
 # Import
 from argparse import ArgumentParser, FileType
+import numpy as np
 from tqdm import tqdm, trange
 import pickle
 from googletrans import Translator
