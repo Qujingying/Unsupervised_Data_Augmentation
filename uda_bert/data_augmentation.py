@@ -273,7 +273,7 @@ def convert_examplesUDA_to_features(examples, max_seq_length,
       elif output_mode == "regression":
           label_id = float(label_list[ex_index])
       elif output_mode == "UDA":
-          label_id == None
+          label_id = None
       else:
           raise KeyError(output_mode)
 
