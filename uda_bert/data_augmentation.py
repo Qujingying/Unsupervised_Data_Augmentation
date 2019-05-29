@@ -156,7 +156,7 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
                 doc.append(line)
                 doc_translated.append(back_translation.text)
             text_original = ''.join(doc)
-            text_translated = '.'.join(doc_translated)
+            text_translated = ''.join(doc_translated)
             print('original: ',text_original)
             print('translated: ', text_translated)
             docs.add_document([text_original,text_translated])
@@ -218,83 +218,83 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
 
 def convert_examplesUDA_to_features(examples, max_seq_length,
                                  tokenizer, output_mode,label_list = None):
-  """Loads a data file into a list of `InputBatch`s."""
+    """Loads a data file into a list of `InputBatch`s."""
 
-#   label_map = {label : i for i, label in enumerate(label_list)}
+    #   label_map = {label : i for i, label in enumerate(label_list)}
 
-  features = []
-  for ex_index, example_ in enumerate(examples):
+    features = []
+    # for ex_index, example_ in enumerate(examples):
       # if ex_index % 10000 == 0:
       #     print('1000')
 
-      example = example_[0]
-      example_2 = example_[1]
-      # print(example_, len(example_))
-      tokens_a = tokenizer.tokenize(example)
-      print(tokens_a)
-      tokens_b = tokenizer.tokenize(example_2)
-      print(tokens_b)
-#       if example.text_b:
-#           tokens_b = tokenizer.tokenize(example.text_b)
-#           # Modifies `tokens_a` and `tokens_b` in place so that the total
-#           # length is less than the specified length.
-#           # Account for [CLS], [SEP], [SEP] with "- 3"
-#           _truncate_seq_pair(tokens_a, tokens_b, max_seq_length - 3)
-#       else:
-          # Account for [CLS] and [SEP] with "- 2"
-      if len(tokens_a) > max_seq_length - 2:
-          tokens_a = tokens_a[:(max_seq_length - 2)]
-      if len(tokens_b) > max_seq_length - 2:
-          tokens_b = tokens_b[:(max_seq_length - 2)]
+    example = examples[0]
+    example_2 = examples[1]
+    # print(example_, len(example_))
+    tokens_a = tokenizer.tokenize(example)
+    print(tokens_a)
+    tokens_b = tokenizer.tokenize(example_2)
+    print(tokens_b)
+    #       if example.text_b:
+    #           tokens_b = tokenizer.tokenize(example.text_b)
+    #           # Modifies `tokens_a` and `tokens_b` in place so that the total
+    #           # length is less than the specified length.
+    #           # Account for [CLS], [SEP], [SEP] with "- 3"
+    #           _truncate_seq_pair(tokens_a, tokens_b, max_seq_length - 3)
+    #       else:
+      # Account for [CLS] and [SEP] with "- 2"
+    if len(tokens_a) > max_seq_length - 2:
+      tokens_a = tokens_a[:(max_seq_length - 2)]
+    if len(tokens_b) > max_seq_length - 2:
+      tokens_b = tokens_b[:(max_seq_length - 2)]
 
-      # the entire model is fine-tuned.
-      tokens1 = ["[CLS]"] + tokens_a + ["[SEP]"]
-      segment_ids1 = [0] * len(tokens1)
-      tokens2 = ["[CLS]"] + tokens_b + ["[SEP]"]
-      segment_ids2 = [0] * len(tokens2)
-      #
-
-
-      input_ids1 = tokenizer.convert_tokens_to_ids(tokens1)
-      input_ids2 = tokenizer.convert_tokens_to_ids(tokens2)
-
-      # The mask has 1 for real tokens and 0 for padding tokens. Only real
-      # tokens are attended to.
-      input_mask1 = [1] * len(input_ids1)
-      input_mask2 = [1] * len(input_ids2)
-      # Zero-pad up to the sequence length.
-      padding1 = [0] * (max_seq_length - len(input_ids1))
-      padding2 = [0] * (max_seq_length - len(input_ids2))
-      input_ids1 += padding1
-      input_mask1 += padding1
-      segment_ids1 += padding1
-
-      input_ids2 += padding2
-      input_mask2 += padding2
-      segment_ids2 += padding2
-
-      assert len(input_ids1) == max_seq_length
-      assert len(input_mask1) == max_seq_length
-      assert len(segment_ids1) == max_seq_length
-      assert len(input_ids2) == max_seq_length
-      assert len(input_mask2) == max_seq_length
-      assert len(segment_ids2) == max_seq_length
-
-      if output_mode == "classification":
-          label_id = label_list[ex_index]
-      elif output_mode == "regression":
-          label_id = float(label_list[ex_index])
-      elif output_mode == "UDA":
-          label_id = None
-      else:
-          raise KeyError(output_mode)
+    # the entire model is fine-tuned.
+    tokens1 = ["[CLS]"] + tokens_a + ["[SEP]"]
+    segment_ids1 = [0] * len(tokens1)
+    tokens2 = ["[CLS]"] + tokens_b + ["[SEP]"]
+    segment_ids2 = [0] * len(tokens2)
+    #
 
 
-      features.append(InputFeatures(input_ids=[input_ids1,input_ids2],
-                            input_mask=[input_mask1,input_mask2],
-                            segment_ids=[segment_ids1,segment_ids2],
-                            label_id=label_id))
-  return features
+    input_ids1 = tokenizer.convert_tokens_to_ids(tokens1)
+    input_ids2 = tokenizer.convert_tokens_to_ids(tokens2)
+
+    # The mask has 1 for real tokens and 0 for padding tokens. Only real
+    # tokens are attended to.
+    input_mask1 = [1] * len(input_ids1)
+    input_mask2 = [1] * len(input_ids2)
+    # Zero-pad up to the sequence length.
+    padding1 = [0] * (max_seq_length - len(input_ids1))
+    padding2 = [0] * (max_seq_length - len(input_ids2))
+    input_ids1 += padding1
+    input_mask1 += padding1
+    segment_ids1 += padding1
+
+    input_ids2 += padding2
+    input_mask2 += padding2
+    segment_ids2 += padding2
+
+    assert len(input_ids1) == max_seq_length
+    assert len(input_mask1) == max_seq_length
+    assert len(segment_ids1) == max_seq_length
+    assert len(input_ids2) == max_seq_length
+    assert len(input_mask2) == max_seq_length
+    assert len(segment_ids2) == max_seq_length
+
+    if output_mode == "classification":
+      label_id = label_list[ex_index]
+    elif output_mode == "regression":
+      label_id = float(label_list[ex_index])
+    elif output_mode == "UDA":
+      label_id = None
+    else:
+      raise KeyError(output_mode)
+
+
+    features.append(InputFeatures(input_ids=[input_ids1,input_ids2],
+                        input_mask=[input_mask1,input_mask2],
+                        segment_ids=[segment_ids1,segment_ids2],
+                        label_id=label_id))
+    return features
 
 
 def convertLABEL_examples_to_features(examples, label_list, max_seq_length,
