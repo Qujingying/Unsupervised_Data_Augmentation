@@ -147,10 +147,10 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
             doc = []
             doc_translated = []
             for line in tqdm(liste, desc="Loading Dataset", unit=" lines"):
-                print(line)
+
                 line = line.strip()
                 if line == "":
-                    docs.add_document((doc, doc_translated))
+                    docs.add_document(np.array(doc, doc_translated))
                     doc = []
                     doc_translated = []
                 else:
