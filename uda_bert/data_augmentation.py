@@ -117,11 +117,11 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
     nlp.max_length = 2000000
     text_to_write = []
     for file in tqdm(Path(input_folder).glob("*.txt")):
-        print(file)
+        # print(file)
         with open(file, 'r') as f:
             raw_text = f.read()
         text = raw_text.replace('\n\n', ' ')
-        print(text)
+        # print(text)
         doc = nlp(text)
 
         if trim:
@@ -214,11 +214,11 @@ def convert_examplesUDA_to_features(examples, max_seq_length,
 
   features = []
   for ex_index, example_ in enumerate(examples):
-      if ex_index % 10000 == 0:
-          print('1000')
+      # if ex_index % 10000 == 0:
+      #     print('1000')
       example = example_[0]
       example_2 = example_[1]
-      print(example_, len(example_))
+      # print(example_, len(example_))
       tokens_a = tokenizer.tokenize(example)
 
       tokens_b = tokenizer.tokenize(example_2)
@@ -404,7 +404,7 @@ def main():
     loss_function = torch.nn.KLDivLoss(size_average=None, reduce=None, reduction='mean')
     global_step = 0
     import os
-    print('cwd', os.getcwd())
+    # print('cwd', os.getcwd())
     for epoch in tqdm(range(args.epochs)):
         writer.add_scalar('lol', epoch)
         model.train()
