@@ -173,9 +173,9 @@ def prepare_with_back_translate(text, translator, selected_lang, target_lang, ep
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     for doc_idx in trange(len(docs), desc="Document"):
         print(docs[doc_idx])
-        instance = convert_examplesUDA_to_features(docs[doc_idx],max_seq_length = 512, tokenizer = tokenizer,output_mode = "UDA")
+        instance = convert_examplesUDA_to_features(docs[doc_idx],max_seq_length = 512, tokenizer = tokenizer,output_mode = "UDA"))
         docs_instances_unsup.append(instance)
-
+    docs_instances_unsup = np.array(docs_instances_unsup).T
     pickle.dump(docs_instances_unsup,open('data_unsup.p','wb'))
     return docs_instances_unsup
                 # instance = {
@@ -278,8 +278,7 @@ def convert_examplesUDA_to_features(examples, max_seq_length,
           raise KeyError(output_mode)
 
 
-      features.append(
-              InputFeatures(input_ids=[input_ids1,input_ids2],
+      features.append(InputFeatures(input_ids=[input_ids1,input_ids2],
                             input_mask=[input_mask1,input_mask2],
                             segment_ids=[segment_ids1,segment_ids2],
                             label_id=label_id))
@@ -330,8 +329,7 @@ def convertLABEL_examples_to_features(examples, label_list, max_seq_length,
           raise KeyError(output_mode)
 
 
-      features.append(
-              InputFeatures(input_ids=input_ids,
+      features.append(InputFeatures(input_ids=input_ids,
                             input_mask=input_mask,
                             segment_ids=segment_ids,
                             label_id=label_id))
