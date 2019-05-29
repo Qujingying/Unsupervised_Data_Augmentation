@@ -130,13 +130,13 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
         else:
             sentences = [sent.string.strip() for sent in doc.sents]
             all_sentences.append(sentences)
-        text_to_write.append('\n'.join(sentences))
-    try:
-        output_file.write('\n\n'.join(text_to_write))
-        output_file.close()
-    except:
-        pass
-    print(all_sentences)
+    #     text_to_write.append('\n'.join(sentences))
+    # # try:
+    #     output_file.write('\n\n'.join(text_to_write))
+    #     output_file.close()
+    # except:
+    #     pass
+    # print(all_sentences)
     return all_sentences
 
 
