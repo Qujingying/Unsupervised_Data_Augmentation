@@ -143,8 +143,10 @@ def split_into_sentences(input_folder: str, output_file: FileType, trim: bool):
 
 def prepare_with_back_translate(text, translator, selected_lang, target_lang, epochs_to_generate,output_dir):
     print(text)
+    print(len(text))
     with DocumentDatabase() as docs:
         for liste in text:
+            print('lsite' , liste)
         # with open(text.name, 'r') as f:
         #     liste = f.readlines()
             doc = []
